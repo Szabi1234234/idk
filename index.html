@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        autok = ["Audo", "BMW", "Mercedes", "Suzuki"];
+
+        const azonositokLekerese = new Promise(
+            (resolve, reject) => {
+                setTimeout(() => {
+                    resolve([0,1,2,3]);
+                    reject("Hiba van lacko");
+                }, 3000);
+            }
+        );
+
+        const autoLekeres = autoID => {
+            return new Promise(
+                (resolve, reject) => {
+                    setTimeout(id => {
+                        resolve(autok[id]);
+                        reject("Hiba van lacko");
+                    }, 2000, autoID);
+                });
+        }
+
+        azonositokLekerese
+        .then(azonositok =>{
+            console.log(azonositok);
+            return autoLekeres(azonositok[2]);
+        })
+        .then(auto => {
+            console.log(auto);
+        })
+        .catch(hiba => {
+            console.log(hiba);
+        });
+
+        async function lekerdezes(){
+            try{
+                const azonositok = await azonositokLekerese;
+                console.log(azonositok);
+                const auto = await autoLekeres(azonositok[0]);
+                console.log(auto);
+            } catch (hiba) {
+                console.log(hiba);
+            }
+        }
+
+        lekerdezes();
+
+    </script>
+</body>
+</html>
